@@ -1,12 +1,36 @@
-import React from "react";
+import React from 'react';
 
-function QuestionList() {
+const QuestionList = ({ questions, onUpdateCorrectIndex }) => {
+  const handleDropdownChange = (questionId, event) => {
+    const newCorrectIndex = parseInt(event.target.value, 10);
+    onUpdateCorrectIndex(questionId, newCorrectIndex);
+  };
+
   return (
-    <section>
+    <div>
       <h1>Quiz Questions</h1>
-      <ul>{/* display QuestionItem components here after fetching */}</ul>
-    </section>
+      <ul>
+        {questions.map((question) => (
+          <li key={question.id}>
+            {question.text}
+            <label>
+              Correct Answer:
+              <select
+                value={question.correctIndex}
+                onChange={(e) => handleDropdownChange(question.id, e)}
+              >
+                {question.answers.map((answer, index) => (
+                  <option key={index} value={index}>
+                    {answer}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
-}
+};
 
 export default QuestionList;
